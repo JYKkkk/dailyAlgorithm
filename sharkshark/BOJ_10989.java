@@ -1,8 +1,5 @@
 package algori;
 import java.util.*;
-
-//import jdk.internal.org.jline.utils.InputStreamReader;
-
 import java.io.*;
 
 public class BOJ_10989 {
