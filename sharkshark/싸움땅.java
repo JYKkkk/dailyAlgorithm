@@ -24,7 +24,7 @@ public class 싸움땅 {
 			return s - o.s;
 		}
 		
-		public int getDiff(Player o) {
+		public int subtract(Player o) {
 			return s + gun - o.s - o.gun;
 		}
 	}
@@ -67,23 +67,96 @@ public class 싸움땅 {
 			for(int j=1; j<=m; j++) {
 				move(j);
 				int c = conflict(player[j].x, player[j].y, j);
-				if(c==0) {	// 이동한 방향에 플레이어가 없는 경우
-					pick_gun();
-				} else {	// 이동한 방향에 플레이어가 있는 경우
-					fight();
+				if(c==0) {	// 이동한 방향에 플레이어가 없는 경우(싸움이 일어나지 않았다면)
+					drop_gun(j);
+					pick_gun(j);
+				} else {	// 이동한 방향에 플레이어가 있는 경우(싸움이 일어났다면)
+					fight(j, c);
 				}
 			}
-		}
-		
+		}	
 		// output : 각 플레이어들이 획득한 포인트 출력
 		for(int i=1; i<=m; i++) {
-			System.out.print(player[i] + " ");
+			System.out.print(player[i].score + " ");
 		}
 	}
 
-	// j번 플레이어를 한 칸 이동시킴
+	static void fight(int j, int c) {
+		// j번 사람이랑 c번 사람이 싸움!
+		if(player[j].compareTo(player[c]) < 0) {	// c번 사람 승리
+			player[c].score += player[c].subtract(player[j]);
+			loser(j);
+			winner(c);
+		} else {
+			player[j].score += player[j].subtract(player[c]);
+			loser(c);
+			winner(j);
+		}
+	}
+
+	static void winner(int j) {
+		// 승리자에 대한 처리
+		drop_gun(j);
+		pick_gun(j);
+	}
+
+	static void loser(int j) {
+		// 패배자에 대한 처리
+		// 1. 총 떨어뜨리기
+		drop_gun(j);
+		// 2. 네 방향을 시계 방향으로 돌면서 갈 곳을 찾음
+		int d = player[j].d;
+		int nx = player[j].x + dir[d][0], ny = player[j].y + dir[d][1];
+		while(nx < 1 || ny < 1 || nx > n || ny > n || conflict(nx, ny, j) != 0) {
+			d = (d + 1) % 4;
+			nx = player[j].x + dir[d][0]; ny = player[j].y + dir[d][1];
+		}
+		player[j].d = d;
+		player[j].x = nx; player[j].y = ny;
+		// 3.
+		pick_gun(j);
+	}
+
+	static void pick_gun(int j) {
+		// j번 사람이 현재 위치에서 총을 주움
+		int x = player[j].x, y = player[j].y;
+		if(map[x][y].isEmpty()) {
+			player[j].gun = 0;
+		} else {
+			player[j].gun = map[x][y].poll();
+		}
+	}
+
+	static void drop_gun(int j) {
+		// 이미 총을 가지고 있는 경우, 공격력이 더 쎈 총 획득
+		int x = player[j].x, y = player[j].y;
+		map[x][y].add(player[j].gun);
+		player[j].gun = 0;
+	}
+
+	static int conflict(int x, int y, int j) {
+		// 현재 (x, y)에 있는 사람 / 플레이어가 충돌하는지 여부
+		for(int i=1; i<=m; i++) {
+			if(i==j) continue;
+			if(x == player[i].x && y == player[i].y) {
+				return i;	// 이동한 방향에 있는 플레이어
+			}
+		}
+		return 0;
+	}
+
+	static int[][] dir = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+	
 	static void move(int j) {
-		
+		// j번 플레이어가 규칙에 맞게 이동함
+		int d = player[j].d;
+		int nx = player[j].x + dir[d][0], ny = player[j].y + dir[d][1];
+		if(nx < 1 || ny < 1 || nx > n || ny > n) {	// 격자를 벗어나는 경우, 정반대 방향으로 +1
+			d ^= 2;
+			player[j].d ^= 2;
+			nx = player[j].x + dir[d][0]; ny = player[j].y + dir[d][1]; 
+		}
+		player[j].x = nx; player[j].y = ny;
 	}
 
 	public static void main(String[] args) throws Exception {
