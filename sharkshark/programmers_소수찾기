@@ -1,0 +1,45 @@
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    static ArrayList<Integer> list = new ArrayList<>();
+    static String input;
+    static boolean[] visited = new boolean[7]; // 사용여부
+        
+    public int solution(String numbers) {
+        int answer = 0;
+        input = numbers;
+                
+        combination("",0); // 재귀함수
+        
+        answer = list.size();
+        return answer;
+    }
+    
+    // dfs 재귀로 구현. 가능한 숫자 조합 찾고 소수면 set에 추가
+    public void combination(String str, int idx){
+        int num;
+        if(str!=""){
+            num = Integer.parseInt(str);
+            if(isPrime(num) && !list.contains(num)) list.add(num); // 소수판별
+        }
+        if(idx>=input.length()) return; // 끝까지 다했을 때 
+        
+        for(int i=0;i<input.length();i++){
+            if(visited[i]) continue; // 방문한 노드면 넘어감
+            visited[i] = true;
+            combination(str+input.charAt(i), idx+1);
+            visited[i] = false; // 백트래킹
+        }
+    }
+    
+    // 소수 판별
+    public boolean isPrime(int num){
+        if(num<2) return false;
+        for(int i=2; i*i<=num;i++){
+            if(num%i==0) return false;
+        }
+        return true;
+    }
+    
+}
