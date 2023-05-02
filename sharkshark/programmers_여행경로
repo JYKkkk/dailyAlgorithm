@@ -1,0 +1,35 @@
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    
+    static boolean visited[];
+    static ArrayList<String> list = new ArrayList<>();
+    
+    public String[] solution(String[][] tickets) {  // 항공권 정보가 담김
+        String[] answer = {};
+        
+        visited = new boolean[tickets.length];
+        dfs("ICN", "ICN", tickets, 0);
+        
+        Collections.sort(list);
+        answer = list.get(0).split(" ");
+        
+        return answer;  // 방문하는 공항 경로를 배열에 담아 return
+    }
+    
+    public void dfs(String start, String route, String[][] tickets, int cnt) {
+        if(cnt==tickets.length) {
+            list.add(route);
+            return;
+        }
+        
+        for(int i=0; i<tickets.length; i++) {
+            if(start.equals(tickets[i][0]) && !visited[i]) {
+                visited[i] = true;
+                dfs(tickets[i][1], route+" "+tickets[i][1], tickets, cnt+1);
+                visited[i] = false;
+            }
+        }
+    }
+}
