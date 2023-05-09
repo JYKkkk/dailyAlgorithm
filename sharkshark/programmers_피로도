@@ -1,0 +1,28 @@
+import java.io.*;
+import java.util.*;
+
+class Solution {
+
+    static boolean[] visited;
+    static int answer = -1;
+    
+    public int solution(int k, int[][] dungeons) {
+        // answer == 유저가 탐험할 수 있는 최대 던전 수
+        visited = new boolean[dungeons.length];
+        
+        dfs(0, k, dungeons);
+
+        return answer;
+    }
+    
+    public void dfs(int cnt, int k, int[][] dungeons) {
+        for(int i=0; i<dungeons.length; i++) {
+            if(!visited[i] && k>=dungeons[i][0]) {  // 방문x, 최소 필요 피로도 이상인 경우
+                visited[i] = true;
+                dfs(cnt+1, k - dungeons[i][1], dungeons);
+                visited[i] = false;
+            }
+        }
+        answer = Math.max(answer, cnt);
+    }
+}
