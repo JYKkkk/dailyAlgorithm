@@ -3,7 +3,7 @@
      ``` MySQL
       locate("특정 문자열", STRING);   # return : 값 없는 경우 0, 특정 문자열 위치
       select * from TEST where locate("네비게이션", STRING) > 0;   # like를 사용할 수 없는 경우 유용
-      select * from TEST where locate("네비게이션", STRING);       # 5줄과 같은 결과 출력함
+      select * from TEST where locate("네비게이션", STRING);       # 위의 > 0 줄과 같은 결과 출력함
       ``` 
  - **like**
      ``` MySQL
