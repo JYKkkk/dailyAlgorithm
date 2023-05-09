@@ -6,5 +6,6 @@
       ``` 
  - **like**
      ``` MySQL
-     select * from TEST where STRING like concat("%", "네비게이션", "%");    # 주의점 : like 연산자 사용, 문자열 이어붙이는 concat 함수 사용
+     # 주의점 : like 연산자 사용, 문자열 이어붙이는 concat 함수 사용
+     select * from TEST where STRING like concat("%", "네비게이션", "%");
      ```
