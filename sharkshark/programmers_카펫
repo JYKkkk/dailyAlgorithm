@@ -1,0 +1,28 @@
+import java.io.*;
+import java.util.*;
+
+class Solution {
+    
+    static int sum;
+    
+    public int[] solution(int brown, int yellow) {
+        sum = brown + yellow;
+        int[] answer = new int[2];
+        
+        for(int i=3; i<=sum; i++) {
+            int temp = sum/i;
+            
+            if(sum%i==0 && i-2>0 && temp-2>0 && (i-2)*(temp-2)==yellow) {
+                if(temp>=i){
+                    answer[0] = temp;
+                    answer[1] = i;
+                } else{
+                    answer[0] = i;
+                    answer[1] = temp;
+                }
+            }
+        }
+        
+        return answer;
+    }
+}
