@@ -1,0 +1,24 @@
+import java.util.*;
+import java.io.*;
+
+public class Solution {
+    public int[] solution(int []arr) {
+        int[] answer = {};
+        
+        ArrayList<Integer> list = new ArrayList<>();
+        int val = -1;
+        for(int i:arr) {
+            if(i!=val) {
+                list.add(i);
+            }
+            val = i;
+        }
+        
+        answer = new int[list.size()];
+        for(int i=0; i<answer.length; i++) {
+            answer[i] = list.get(i);
+        }
+        
+        return answer;
+    }
+}
