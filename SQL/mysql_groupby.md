@@ -1,5 +1,5 @@
 ## group by 활용
- - ex1)
+ - ex1) 음식종류별로 즐겨찾기수가 가장 많은 식당
      ``` MySQL
       select FOOD_TYPE, REST_ID, REST_NAME, FAVORITES 
       from REST_INFO 
