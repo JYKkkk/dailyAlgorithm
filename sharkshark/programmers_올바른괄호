@@ -1,0 +1,29 @@
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    boolean solution(String s) {
+        boolean answer = true;
+
+        Queue<Character> q = new LinkedList<>();
+        for(int i=0; i<s.length(); i++) {
+            if(s.charAt(i) == '(') {
+                q.add(s.charAt(i));
+            } else {
+                if(q.isEmpty()) {
+                    return false;
+                } else {
+                    q.poll();
+                }
+            }
+        }
+        
+        if(!q.isEmpty()) {
+            answer = false;
+        } else {
+            answer = true;
+        }
+
+        return answer;
+    }
+}
