@@ -1,7 +1,7 @@
 ## 반올림
  - **round** : (숫자를 반올림할 자릿수+1)자릿수에서 반올림
      ``` MySQL
-      select round(3456.1234567) from TEST;   #3456
+      select round(3456.1234567) from TEST;   #3456 : 정수만 출력
       select round(3456.1234567, 1) from TEST;  #3456.1 : 2번째 자릿수에서 반올림
       select round(3456.1234567, 4) from TEST;  #3456.1235
       select round(3456.1234567, -1) from TEST;   #3460
